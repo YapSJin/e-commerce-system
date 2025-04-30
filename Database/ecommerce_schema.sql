@@ -49,6 +49,8 @@ CREATE TABLE Products (
 	price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
 	stock INT NOT NULL CHECK (stock >= 0),
 	category_id INT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	is_archived BOOLEAN DEFAULT FALSE,
 	FOREIGN KEY (category_id) REFERENCES Categories(id)
 );
 
@@ -78,6 +80,7 @@ CREATE TABLE Orders (
 	address_id INT,
 	payment_method VARCHAR(50) NOT NULL CHECK (payment_method IN ('cash', 'card','e-wallet')),
 	card_id INT,
+	status VARCHAR(50) NOT NULL CHECK (status IN ('packaging', 'shipping', 'delivery')),
 	total_price DECIMAL(10,2) NOT NULL CHECK (total_price >= 0),
 	delivery_cost DECIMAL(10,2) DEFAULT 0.00,
 	promo_id INT,
@@ -105,21 +108,10 @@ CREATE TABLE Reviews (
 	product_id INT,
 	rating INT CHECK (rating BETWEEN 1 AND 5),
 	review VARCHAR(255),
-	is_archived BOOLEAN DEFAULT FALSE,
 	review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	is_archived BOOLEAN DEFAULT FALSE,
 	FOREIGN KEY (user_id) REFERENCES Users(id),
 	FOREIGN KEY (product_id) REFERENCES Products(id)
-);
-
-CREATE TABLE Reply (
-	id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	review_id INT,
-	user_id INT,
-	reply_text VARCHAR(255) NOT NULL,
-	is_archived BOOLEAN DEFAULT FALSE,
-	reply_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (review_id) REFERENCES Reviews(id),
-	FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
 CREATE TABLE Reports (

@@ -14,15 +14,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,8 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "Reviews.findById", query = "SELECT r FROM Reviews r WHERE r.id = :id"),
 	@NamedQuery(name = "Reviews.findByRating", query = "SELECT r FROM Reviews r WHERE r.rating = :rating"),
 	@NamedQuery(name = "Reviews.findByReview", query = "SELECT r FROM Reviews r WHERE r.review = :review"),
-	@NamedQuery(name = "Reviews.findByIsArchived", query = "SELECT r FROM Reviews r WHERE r.isArchived = :isArchived"),
-	@NamedQuery(name = "Reviews.findByReviewDate", query = "SELECT r FROM Reviews r WHERE r.reviewDate = :reviewDate")})
+	@NamedQuery(name = "Reviews.findByReviewDate", query = "SELECT r FROM Reviews r WHERE r.reviewDate = :reviewDate"),
+	@NamedQuery(name = "Reviews.findByIsArchived", query = "SELECT r FROM Reviews r WHERE r.isArchived = :isArchived")})
 public class Reviews implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -50,19 +47,17 @@ public class Reviews implements Serializable {
 	private Integer rating;
 	@Column(name = "REVIEW")
 	private String review;
-	@Column(name = "IS_ARCHIVED")
-	private Boolean isArchived;
 	@Column(name = "REVIEW_DATE")
   @Temporal(TemporalType.TIMESTAMP)
 	private Date reviewDate;
+	@Column(name = "IS_ARCHIVED", insertable = false)
+	private Boolean isArchived;
 	@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
   @ManyToOne
 	private Products productId;
 	@JoinColumn(name = "USER_ID", referencedColumnName = "ID")
   @ManyToOne
 	private Users userId;
-	@OneToMany(mappedBy = "reviewId")
-	private List<Reply> replyList;
 
 	public Reviews() {
 	}
@@ -95,20 +90,20 @@ public class Reviews implements Serializable {
 		this.review = review;
 	}
 
-	public Boolean getIsArchived() {
-		return isArchived;
-	}
-
-	public void setIsArchived(Boolean isArchived) {
-		this.isArchived = isArchived;
-	}
-
 	public Date getReviewDate() {
 		return reviewDate;
 	}
 
 	public void setReviewDate(Date reviewDate) {
 		this.reviewDate = reviewDate;
+	}
+
+	public Boolean getIsArchived() {
+		return isArchived;
+	}
+
+	public void setIsArchived(Boolean isArchived) {
+		this.isArchived = isArchived;
 	}
 
 	public Products getProductId() {
@@ -125,15 +120,6 @@ public class Reviews implements Serializable {
 
 	public void setUserId(Users userId) {
 		this.userId = userId;
-	}
-
-	@XmlTransient
-	public List<Reply> getReplyList() {
-		return replyList;
-	}
-
-	public void setReplyList(List<Reply> replyList) {
-		this.replyList = replyList;
 	}
 
 	@Override

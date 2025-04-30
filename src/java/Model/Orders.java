@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
 	@NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
 	@NamedQuery(name = "Orders.findByPaymentMethod", query = "SELECT o FROM Orders o WHERE o.paymentMethod = :paymentMethod"),
+	@NamedQuery(name = "Orders.findByStatus", query = "SELECT o FROM Orders o WHERE o.status = :status"),
 	@NamedQuery(name = "Orders.findByTotalPrice", query = "SELECT o FROM Orders o WHERE o.totalPrice = :totalPrice"),
 	@NamedQuery(name = "Orders.findByDeliveryCost", query = "SELECT o FROM Orders o WHERE o.deliveryCost = :deliveryCost"),
 	@NamedQuery(name = "Orders.findByDiscount", query = "SELECT o FROM Orders o WHERE o.discount = :discount"),
@@ -51,6 +52,9 @@ public class Orders implements Serializable {
 	@Basic(optional = false)
   @Column(name = "PAYMENT_METHOD")
 	private String paymentMethod;
+	@Basic(optional = false)
+  @Column(name = "STATUS")
+	private String status;
 	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
 	@Basic(optional = false)
   @Column(name = "TOTAL_PRICE")
@@ -84,9 +88,10 @@ public class Orders implements Serializable {
 		this.id = id;
 	}
 
-	public Orders(Integer id, String paymentMethod, BigDecimal totalPrice) {
+	public Orders(Integer id, String paymentMethod, String status, BigDecimal totalPrice) {
 		this.id = id;
 		this.paymentMethod = paymentMethod;
+		this.status = status;
 		this.totalPrice = totalPrice;
 	}
 
@@ -104,6 +109,14 @@ public class Orders implements Serializable {
 
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public BigDecimal getTotalPrice() {

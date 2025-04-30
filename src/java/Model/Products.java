@@ -16,8 +16,11 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -35,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "Products.findByName", query = "SELECT p FROM Products p WHERE p.name = :name"),
 	@NamedQuery(name = "Products.findByDescription", query = "SELECT p FROM Products p WHERE p.description = :description"),
 	@NamedQuery(name = "Products.findByPrice", query = "SELECT p FROM Products p WHERE p.price = :price"),
-	@NamedQuery(name = "Products.findByStock", query = "SELECT p FROM Products p WHERE p.stock = :stock")})
+	@NamedQuery(name = "Products.findByStock", query = "SELECT p FROM Products p WHERE p.stock = :stock"),
+	@NamedQuery(name = "Products.findByCreatedAt", query = "SELECT p FROM Products p WHERE p.createdAt = :createdAt"),
+	@NamedQuery(name = "Products.findByIsArchived", query = "SELECT p FROM Products p WHERE p.isArchived = :isArchived")})
 public class Products implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -56,6 +61,11 @@ public class Products implements Serializable {
 	@Basic(optional = false)
   @Column(name = "STOCK")
 	private int stock;
+	@Column(name = "CREATED_AT", insertable = false, updatable = false)
+  @Temporal(TemporalType.TIMESTAMP)
+	private Date createdAt;
+	@Column(name = "IS_ARCHIVED", insertable = false)
+	private Boolean isArchived;
 	@OneToMany(mappedBy = "productId")
 	private List<Reviews> reviewsList;
 	@JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID")
@@ -118,6 +128,22 @@ public class Products implements Serializable {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Boolean getIsArchived() {
+		return isArchived;
+	}
+
+	public void setIsArchived(Boolean isArchived) {
+		this.isArchived = isArchived;
 	}
 
 	@XmlTransient

@@ -56,6 +56,30 @@
         <servlet-name>IndexController</servlet-name>
         <servlet-class>Controller.IndexController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReviewsController</servlet-name>
+        <servlet-class>Controller.admin.ReviewsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffController</servlet-name>
+        <servlet-class>Controller.admin.StaffController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrdersController</servlet-name>
+        <servlet-class>Controller.admin.OrdersController</servlet-class>
+    </servlet>
+    <servlet>
+    <servlet-name>ReportController</servlet-name>
+    <servlet-class>Controller.admin.ReportController</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ReportController</servlet-name>
+    <url-pattern>/admin/reports</url-pattern>
+</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffController</servlet-name>
+        <url-pattern>/admin/staff</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/register</url-pattern>
@@ -111,7 +135,7 @@
     <servlet-mapping>
         <servlet-name>IndexController</servlet-name>
         <url-pattern>/index</url-pattern>
-	</servlet-mapping>
+    </servlet-mapping>
     <error-page>
         <error-code>403</error-code>
         <location>/WEB-INF/errors/error.jsp</location>
@@ -132,6 +156,14 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WEB-INF/errors/error.jsp</location>
     </error-page>
+    <servlet-mapping>
+        <servlet-name>ReviewsController</servlet-name>
+        <url-pattern>/admin/reviews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrdersController</servlet-name>
+        <url-pattern>/admin/orders</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>
